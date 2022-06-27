@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/10989
+// 10989번 Cpp와 C 속도 비교용
+
 #include <stdio.h>
 
 int main()
