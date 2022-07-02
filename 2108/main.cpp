@@ -5,64 +5,60 @@
 using namespace std;
 
 int main() {
-	int n;
+	int n, i, j;
+	int sum = 0, median, mode_index = 0, mode_value = 0;	// 산술평균을 위한 합계, 중앙값 인덱스, 최빈값 인덱스, 최빈값 빈도 수
+	bool is_second = false;									// 최빈값 조건에서 두번째 최빈값인지를 판별하기 위한 변수
 	int arr[8001] = { 0, };
 
 	cin >> n;
 
-	int i, sum = 0;
-
 	for (i = 0; i < n; i++) {
 		int input;
-		
+
 		cin >> input;
-		
-		sum += input;
+
+		sum += input;										// 입력과 동시에 총합을 증가
 		arr[input + 4000]++;
 	}
 
-	int aaa = -1;
-	int k;
+	// 중앙값
+	for (median = 0, i = -1; i < n / 2; median++) {
+		for (int j = 0; j < arr[median]; j++) {
+			i++;
 
-	for (k = 0; aaa < n / 2; k++) {
-		for (int j = 0; j < arr[k]; j++) {
-			aaa++;
-
-			if (aaa == n / 2)
+			if (i == n / 2)
 				break;
 		}
 	}
 
-	int bbb = 0, ccc = 0;
-	bool tmp = false;
-
+	// 최빈값
 	for (i = 0; i < 8001; i++) {
 		if (!arr[i])
 			continue;
-		
-		else if (arr[i] > ccc) {
-			bbb = i;
-			ccc = arr[i];
-			tmp = true;
+
+		else if (arr[i] > mode_value) {
+			mode_index = i;
+			mode_value = arr[i];
+			is_second = true;
 		}
 
-		else if (arr[i] == ccc) {
-			if (tmp) {
-				bbb = i;
-				ccc = arr[i];
-				tmp = false;
+		else if (arr[i] == mode_value) {
+			if (is_second) {
+				mode_index = i;
+				mode_value = arr[i];
+				is_second = false;
 			}
 		}
 	}
 
-	int j;
-
+	// 범위
 	for (i = 0; !arr[i]; i++);
 	for (j = 8000; !arr[j]; j--);
 
+	// 출력
 	cout << (int)round((double)sum / n) << endl;
-	cout << k - 4001 << endl;
-	cout << bbb - 4000 << endl;
+	cout << median - 4001 << endl;
+	cout << mode_index - 4000 << endl;
 	cout << (j - 4000) - (i - 4000) << endl;
 
 	return 0;
